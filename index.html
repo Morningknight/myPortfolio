@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name | Portfolio</title>
+    <style>
+        /* --- Basic Setup & Apple-like Theme --- */
+        :root {
+            --background-color: #f5f5f7;
+            --widget-background: #ffffff;
+            --text-color: #1d1d1f;
+            --secondary-text-color: #6e6e73;
+            --accent-color: #0071e3;
+            --border-radius: 18px;
+            --gap: 16px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: var(--gap);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Prevents scrollbars during animation */
+        }
+
+        /* --- Main Grid Container --- */
+        .portfolio-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: var(--gap);
+            width: 100%;
+            max-width: 1200px;
+            aspect-ratio: 16 / 9;
+        }
+
+        /* --- Central Hub for Buttons --- */
+        .central-hub {
+            grid-column: 2 / 4;
+            grid-row: 2 / 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: var(--gap);
+            z-index: 10;
+        }
+
+        .hub-button {
+            background-color: var(--widget-background);
+            border-radius: var(--border-radius);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-align: center;
+            padding: 10px;
+        }
+
+        .hub-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .hub-button.active {
+            box-shadow: 0 0 0 2px var(--accent-color);
+        }
+
+        /* --- Widgets --- */
+        .widget {
+            background-color: var(--widget-background);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            opacity: 0;
+            transform: scale(0.95) translateY(10px);
+            pointer-events: none;
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start; /* Aligns content to the top-left */
+        }
+
+        .widget.show {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+        }
+
+        .widget h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .widget p {
+            margin: 0;
+            color: var(--secondary-text-color);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .widget a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .widget a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Widget Specific Grid Placements --- */
+        /* You can change these grid-area values to move widgets around! */
+        /* grid-area: row-start / col-start / row-end / col-end */
+        .widget.w1 { grid-area: 1 / 1; }
+        .widget.w2 { grid-area: 1 / 2; }
+        .widget.w3 { grid-area: 1 / 3; }
+        .widget.w4 { grid-area: 1 / 4; }
+        .widget.w5 { grid-area: 2 / 1; }
+        .widget.w6 { grid-area: 2 / 4; }
+        .widget.w7 { grid-area: 3 / 1; }
+        .widget.w8 { grid-area: 3 / 2; }
+        .widget.w9 { grid-area: 3 / 3; }
+        .widget.w10 { grid-area: 3 / 4; }
+        
+        /* Larger widget examples */
+        .widget.large-h { grid-column: span 2; }
+        .widget.large-v { grid-row: span 2; }
+        
+        /* Responsive design for smaller screens */
+        @media (max-width: 900px) {
+            body {
+                align-items: flex-start;
+                padding: var(--gap);
+                height: auto;
+            }
+            .portfolio-container {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto;
+                aspect-ratio: unset;
+                height: auto;
+            }
+            .central-hub {
+                grid-column: 1 / 3;
+                grid-row: 1;
+                margin-bottom: 20px;
+                position: static;
+            }
+            .widget {
+                position: static;
+                grid-area: auto !important; /* Resets all grid positioning */
+                height: 180px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .hub-button {
+                font-size: 1rem;
+            }
+            .widget {
+                padding: 16px;
+                height: 150px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="portfolio-container">
+        
+        <!-- ====== CENTRAL BUTTONS ====== -->
+        <div class="central-hub">
+            <div class="hub-button" data-category="game-dev">Game<br>Developer</div>
+            <div class="hub-button" data-category="software-dev">Software<br>Developer</div>
+            <div class="hub-button" data-category="writer">Writer</div>
+            <div class="hub-button" data-category="profiles">My<br>Profiles</div>
+        </div>
+
+        <!-- ====== WIDGETS (Initially Hidden) ====== -->
+        <!-- Just change the text content below to match your own info! -->
+
+        <!-- Game Developer Widgets -->
+        <div class="widget w1 game-dev">
+            <h3>About Me (Game Dev)</h3>
+            <p>A passionate developer creating immersive worlds and engaging gameplay mechanics.</p>
+        </div>
+        <div class="widget w3 large-h game-dev">
+            <h3>Project: "Cosmic Rift"</h3>
+            <p>A top-down space shooter built in Unity, featuring procedural level generation and a dynamic power-up system. <a href="#">View on GitHub</a></p>
+        </div>
+        <div class="widget w7 game-dev">
+            <h3>Core Skills</h3>
+            <p>Unity, C#, Unreal Engine, Blender, Gameplay Systems Design.</p>
+        </div>
+        <div class="widget w9 game-dev">
+            <h3>Project: "Dungeon Tales"</h3>
+            <p>A 3D fantasy adventure prototype made with Unreal Engine 5, focusing on atmospheric storytelling.</p>
+        </div>
+
+
+        <!-- Software Developer Widgets -->
+        <div class="widget w2 software-dev">
+            <h3>About Me (Software Dev)</h3>
+            <p>A problem-solver who builds clean, efficient, and scalable software solutions for the web.</p>
+        </div>
+        <div class="widget w4 software-dev">
+            <h3>Project: "TaskFlow API"</h3>
+            <p>A RESTful API built with Node.js and Express for a project management application. <a href="#">See the Docs</a></p>
+        </div>
+        <div class="widget w5 large-v software-dev">
+            <h3>Tech Stack</h3>
+            <p>Front-End: JavaScript, React, Next.js, HTML5, CSS3.<br>Back-End: Node.js, Python, Express.<br>Databases: MongoDB, PostgreSQL.<br>Tools: Docker, Git, AWS.</p>
+        </div>
+        <div class="widget w10 software-dev">
+            <h3>This Portfolio</h3>
+            <p>This very website was built from scratch with vanilla HTML, CSS Grid, and JavaScript to be lightweight and fast.</p>
+        </div>
+
+        <!-- Writer Widgets -->
+        <div class="widget w1 large-h writer">
+            <h3>About Me (Writer)</h3>
+            <p>I craft compelling narratives for games, clear technical documentation for software, and engaging content for blogs.</p>
+        </div>
+        <div class="widget w6 writer">
+            <h3>Game Narrative</h3>
+            <p>Wrote the main story, character dialogue, and lore entries for "Cosmic Rift".</p>
+        </div>
+        <div class="widget w8 writer">
+            <h3>Technical Writing</h3>
+            <p>Authored the complete API documentation for "TaskFlow", including tutorials and endpoint examples.</p>
+        </div>
+        <div class="widget w7 writer">
+            <h3>Personal Blog</h3>
+            <p>I maintain a personal blog about technology, game design, and creative development. <a href="#">Read it here</a></p>
+        </div>
+        
+        <!-- My Profiles Widgets -->
+        <div class="widget w2 profiles">
+            <h3>LinkedIn</h3>
+            <p><a href="https://linkedin.com/in/yourprofile" target="_blank">linkedin.com/in/yourprofile</a></p>
+        </div>
+        <div class="widget w3 profiles">
+            <h3>GitHub</h3>
+            <p><a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></p>
+        </div>
+        <div class="widget w9 profiles">
+            <h3>Twitter / X</h3>
+            <p><a href="https://twitter.com/yourhandle" target="_blank">@yourhandle</a></p>
+        </div>
+        <div class="widget w10 profiles">
+            <h3>Contact Me</h3>
+            <p><a href="mailto:your.email@example.com">your.email@example.com</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hubButtons = document.querySelectorAll('.hub-button');
+            const widgets = document.querySelectorAll('.widget');
+
+            hubButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const category = button.dataset.category;
+                    const isAlreadyActive = button.classList.contains('active');
+
+                    // Remove 'active' class from all buttons
+                    hubButtons.forEach(btn => btn.classList.remove('active'));
+
+                    // Hide all widgets first
+                    widgets.forEach(widget => {
+                        widget.classList.remove('show');
+                    });
+                    
+                    // If the button wasn't already active, show its widgets
+                    if (!isAlreadyActive) {
+                        // Add 'active' class to the clicked button
+                        button.classList.add('active');
+
+                        // Find and show widgets for the clicked category with a delay
+                        const widgetsToShow = document.querySelectorAll('.' + category);
+                        widgetsToShow.forEach((widget, index) => {
+                            setTimeout(() => {
+                                widget.classList.add('show');
+                            }, index * 80); // Stagger the animation by 80ms for a snappy feel
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

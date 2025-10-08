@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Optional: Programmatically click the 'My Profiles' button on page load
+    // Programmatically click the 'My Profiles' button on page load
     // to show something by default.
     const defaultButton = document.querySelector('.hub-button[data-category="profiles"]');
     if (defaultButton) {
